@@ -24,13 +24,13 @@ Launch the container
 docker run -it --platform=linux/amd64 api 
 ```
 
-#### To test the API
+### To test the API
 
 You can access to the API docs from FastAPI on http://localhost:8080/docs
 
 You can access the API documentation and try and better understand the data needed
 
-### To host them on Google Cloud
+### To Deploy the container on Google Cloud Run Service
 
 Clone the repository
 
@@ -38,7 +38,7 @@ Clone the repository
 git clone https://github.com/Nic0ooo/PriceImmoPredictAPI.git
 ```
 
-### You need a Gcloud account
+#### You need a Gcloud account
 
 Deploy Docker container on Gloud run Service
 
@@ -52,7 +52,7 @@ To maintain the version and the configuration, you can configure Github CI/CD  o
 
 To more information check the official documentation of ydf about this [link](https://ydf.readthedocs.io/en/stable/tutorial/to_docker/#packaging-the-model-into-a-docker)
 
-#### To test the API
+### To test the API
 
 You can access to the API docs from FastAPI on url_gived_when_gcloudrun_deployement_is_ready/docs
 
@@ -96,8 +96,12 @@ This evaluation were calculated using 30 datas extract of the dataset before the
 
 Evaluation Repport
 
-![alt text](Evaluation_repport.png)
+![Evaluation repport 1](./public/model_evaluation/Evaluation_repport.png)
 
-![alt text](Evaluation_repport2.png)
+Prediction histogram
 
-![alt text](Evaluation_repport3.png)
+![Evaluation repport 2](./public/model_evaluation/evaluation_repport2.png)
+
+Predictions vs Residual
+
+![Evaluation repport 3](./public/model_evaluation/evaluation_repport3.png)
