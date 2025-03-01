@@ -1,11 +1,6 @@
 from typing import Any, Dict, List
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
-from slowapi.errors import RateLimitExceeded
-from slowapi.middleware import SlowAPIMiddleware
-from fastapi.responses import JSONResponse
 
 from pydantic import BaseModel
 import ydf
@@ -17,16 +12,6 @@ app = FastAPI()
 origins = [
     "http://localhost:80",  # L'origine de votre app React en développement
 ]
-
-# Configuration du rate limiter : ici, 5 requêtes par minute par adresse IP par défaut
-limiter = Limiter(key_func=get_remote_address, default_limits=["5/minute"])
-app.state.limiter = limiter
-
-# Ajout du middleware SlowAPI
-app.add_middleware(SlowAPIMiddleware)
-
-# Gestionnaire d'exceptions pour les dépassements de quota
-app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Middleware CORS
 app.add_middleware(
@@ -68,7 +53,6 @@ class Output(BaseModel):
     predictions: float
 
 @app.post("/predict")
-@limiter.limit("5/minute")
 async def predict(example: Example, request: Request) -> Output:
     # Construction du batch d'exemple
     example_batch: Dict[str, List[Any]] = {k: [v] for k, v in example.dict().items()}
@@ -77,6 +61,5 @@ async def predict(example: Example, request: Request) -> Output:
     return Output(predictions=prediction_batch[0])
 
 @app.post("/predict_batch")
-@limiter.limit("5/minute")
 async def predict_batch(example_batch, request: Request):
     return model.predict(example_batch).tolist()
