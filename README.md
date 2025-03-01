@@ -14,7 +14,9 @@ On data web-scrapped on seloger.com during an professional formation with their 
 
 ### MAE
 
-Mean Absolute Error is 45 804 €
+Mean Absolute Error of the model is 45 804 € (average calculated on 30 test values)
+
+The model is trained using data of 1300 property send offer dataset (cleaned and prepared) from seloger.com
 
 The Mean percentage of the error compared to the expected price is 5 % of the expected price
 
