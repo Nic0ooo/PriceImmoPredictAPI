@@ -34,32 +34,42 @@ field_to_feature = {
 }
 
 class Example(BaseModel):
-    Prix_m2: float = math.nan
-    Type_de_bien: List[str]
-    Nb_de_piece: float = math.nan
-    Nb_de_chambre: float = math.nan
-    Surface: float = math.nan
-    Terrasse: str = ""
-    Balcon: str = ""
-    Garage: str = ""
-    Jardin: str = ""
-    Ascenseur: str = ""
-    Box: str = ""
-    Parking: str = ""
-    Piscine: str = ""
-    Departement: float = math.nan
+  Prix_m2: float = math.nan
+  Type_de_bien: List[str]
+  Nb_de_piece: float = math.nan
+  Nb_de_chambre: float = math.nan
+  Surface: float = math.nan
+  Terrasse: str = ""
+  Balcon: str = ""
+  Garage: str = ""
+  Jardin: str = ""
+  Ascenseur: str = ""
+  Box: str = ""
+  Parking: str = ""
+  Piscine: str = ""
+  Departement: float = math.nan
 
 class Output(BaseModel):
-    predictions: float
+  predictions: float
 
 @app.post("/predict")
 async def predict(example: Example) -> Output:
-    # Construction du batch d'exemple
-    example_batch: Dict[str, List[Any]] = {k: [v] for k, v in example.dict().items()}
-    example_batch = {field_to_feature.get(k, k): v for k, v in example_batch.items()}
-    prediction_batch = model.predict(example_batch).tolist()
-    return Output(predictions=prediction_batch[0])
+  # Wrap the example features into a batch i.e., a list. If multiple examples
+  # are available at the same time, it is more efficient to group them and run a
+  # single prediction with "predict_batch".
+  example_batch: Dict[str, List[Any]] = {
+      k: [v] for k, v in example.dict().items()
+  }
+  example_batch = { field_to_feature.get(k,k):v for k,v in example_batch.items()}
+  prediction_batch = model.predict(example_batch).tolist()
+
+  return Output(
+    predictions=prediction_batch[0],
+
+  )
+
 
 @app.post("/predict_batch")
 async def predict_batch(example_batch):
-    return model.predict(example_batch).tolist()
+  return model.predict(example_batch).tolist()
+
