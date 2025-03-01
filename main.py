@@ -1,19 +1,16 @@
 from typing import Any, Dict, List
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-
 from pydantic import BaseModel
 import ydf
 import math
 
 app = FastAPI()
 
-# Liste des origines autorisées
 origins = [
-    "http://localhost:80",  # L'origine de votre app React en développement
+    "http://localhost:80",  # L'origine de votre app React en développement (ajouter le nom de domaine de l'app)
 ]
 
-# Middleware CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  
@@ -22,16 +19,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Chargement de votre modèle
 model = ydf.load_model("model")
 
-# Mapping entre les noms des features et les attributs du modèle
-field_to_feature = {
-    'Prix_m2': 'Prix/m2',
-    'Type_de_bien': 'Type de bien',
-    'Nb_de_piece': 'Nb de piece',
-    'Nb_de_chambre': 'Nb de chambre'
-}
+field_to_feature = {'Prix_m2': 'Prix/m2', 'Type_de_bien': 'Type de bien', 'Nb_de_piece': 'Nb de piece', 'Nb_de_chambre': 'Nb de chambre'}
 
 class Example(BaseModel):
   Prix_m2: float = math.nan
@@ -54,9 +44,6 @@ class Output(BaseModel):
 
 @app.post("/predict")
 async def predict(example: Example) -> Output:
-  # Wrap the example features into a batch i.e., a list. If multiple examples
-  # are available at the same time, it is more efficient to group them and run a
-  # single prediction with "predict_batch".
   example_batch: Dict[str, List[Any]] = {
       k: [v] for k, v in example.dict().items()
   }
@@ -65,11 +52,8 @@ async def predict(example: Example) -> Output:
 
   return Output(
     predictions=prediction_batch[0],
-
   )
-
 
 @app.post("/predict_batch")
 async def predict_batch(example_batch):
   return model.predict(example_batch).tolist()
-
