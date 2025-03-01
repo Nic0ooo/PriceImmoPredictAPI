@@ -53,7 +53,7 @@ class Output(BaseModel):
     predictions: float
 
 @app.post("/predict")
-async def predict(example: Example, request: Request) -> Output:
+async def predict(example: Example) -> Output:
     # Construction du batch d'exemple
     example_batch: Dict[str, List[Any]] = {k: [v] for k, v in example.dict().items()}
     example_batch = {field_to_feature.get(k, k): v for k, v in example_batch.items()}
@@ -61,5 +61,5 @@ async def predict(example: Example, request: Request) -> Output:
     return Output(predictions=prediction_batch[0])
 
 @app.post("/predict_batch")
-async def predict_batch(example_batch, request: Request):
+async def predict_batch(example_batch):
     return model.predict(example_batch).tolist()
