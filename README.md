@@ -28,6 +28,10 @@ docker run -it --platform=linux/amd64 api
 
 You can access to the API docs from FastAPI on http://localhost:8080/docs
 
+Preview of th example usage of the API docs
+
+![API Docs](./public/preview-docs-FastAPI.png)
+
 You can access the API documentation and try and better understand the data needed
 
 ### To Deploy the container on Google Cloud Run Service
