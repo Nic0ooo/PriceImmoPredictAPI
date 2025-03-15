@@ -54,13 +54,17 @@ Indicate the numeric choice for the Gcloud Server
 
 To maintain the version and the configuration, you can configure Github CI/CD  on my Google Cloud Run to configure auto deploy on a branch of a Github Repo.
 
-To more information check the official documentation of ydf about this [link](https://ydf.readthedocs.io/en/stable/tutorial/to_docker/#packaging-the-model-into-a-docker)
+To more information check the official documentation of ydf about this [here](https://ydf.readthedocs.io/en/stable/tutorial/to_docker/#packaging-the-model-into-a-docker)
 
 ### To test the API
 
 You can access to the API docs from FastAPI on url_gived_when_gcloudrun_deployement_is_ready/docs
 
 You can access the API documentation and try and better understand the data needed
+
+You can use this model on a frontend React GUI available on this [repo](https://github.com/Nic0ooo/ImmoPricePredictionWebAPP)
+
+![React GUI preview](./public/preview-react-gui.png)
 
 ----------------------------------------------------------------
 
@@ -84,7 +88,7 @@ On data web-scrapped on seloger.com during an professional formation with their 
 
 The model is trained using data of 1300 property send offer dataset (cleaned and prepared) from seloger.com
 
-XLSX Dataset availbale on this repo, is /public/AnnoncesImmoDataSet.xlsx
+XLSX Dataset available on this repo, it's /public/AnnoncesImmoDataSet.xlsx
 
 ### Model Evaluation on test data
 
